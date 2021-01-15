@@ -40,6 +40,22 @@ public class TicketDAO {
         }
     }
 
+    public boolean isRecurringVehicle(String vehicleRegNumber) {
+        Connection con = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_RECURRING_VEHICLE);
+            //ps.setInt(1,ticket.getParkingSpot().getId());
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+        }catch (Exception ex){
+            logger.error("Error testing recurring vehicle",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+            return false;
+        }
+    }
+
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
