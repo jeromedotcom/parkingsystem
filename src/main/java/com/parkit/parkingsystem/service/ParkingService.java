@@ -51,7 +51,7 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
-                ticket.setRecurringVehicle(isRecurringVehicle(vehicleRegNumber));
+                ticket.setRecurringVehicle(ticketDAO.isRecurringVehicle(vehicleRegNumber));
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
@@ -60,37 +60,6 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
-    }
-
-    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
-    private boolean isRecurringVehicle(String vehicleRegNumber) {
-            Connection con = null;
-            int result = -1;
-            boolean recurringVehicle = false;
-            try {
-                con = dataBaseConfig.getConnection();
-                PreparedStatement ps = con.prepareStatement(DBConstants.GET_RECURRING_VEHICLE);
-                ps.setString(1, vehicleRegNumber);
-                ResultSet rs = ps.executeQuery();
-                //boolean rs = ps.execute();
-
-                if(rs.next()){
-                    result = rs.getInt(1);
-                    if(result>0){
-                        System.out.println("recurring vehicle ok");
-                        recurringVehicle = true;
-                    } else {
-                        recurringVehicle =  false;
-                    }
-                } else {
-                    recurringVehicle =  false;
-                }
-            }catch (Exception ex){
-                logger.error("Error testing recurring vehicle",ex);
-            }finally {
-                dataBaseConfig.closeConnection(con);
-                return recurringVehicle;
-            }
     }
 
     private String getVehicleRegNumber() throws Exception {

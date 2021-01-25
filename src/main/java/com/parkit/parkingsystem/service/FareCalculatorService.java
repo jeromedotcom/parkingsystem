@@ -24,18 +24,18 @@ public class FareCalculatorService {
         double discountRate=1;
         if (durationInSeconds<1800) {
             //ticket.setPrice(0.0);
-            discountRate = 0;
+            discountRate = 0.0;
         } else if(ticket.getRecurringVehicle()) {
             discountRate = 0.95;
         }
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: {
-                ticket.setPrice(durationInSeconds * Fare.CAR_RATE_PER_HOUR * discountRate / 3600);
+                ticket.setPrice(durationInSeconds * Fare.CAR_RATE_PER_HOUR * discountRate / 3600.0);
                 break;
             }
             case BIKE: {
-                ticket.setPrice(durationInSeconds * Fare.BIKE_RATE_PER_HOUR * discountRate / 3600);
+                ticket.setPrice(durationInSeconds * Fare.BIKE_RATE_PER_HOUR * discountRate / 3600.0);
                 break;
             }
             default:
