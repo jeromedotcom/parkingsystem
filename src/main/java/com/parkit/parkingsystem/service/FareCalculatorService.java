@@ -6,14 +6,13 @@ import com.parkit.parkingsystem.model.Ticket;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Objects;
 
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
-            throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
+            throw new IllegalArgumentException("Out time provided is incorrect:"+ Objects.requireNonNull(ticket.getOutTime()).toString());
         }
 
         LocalDateTime inHour = ticket.getInTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(); // Converting java.util.Date to java.time.LocalDateTime

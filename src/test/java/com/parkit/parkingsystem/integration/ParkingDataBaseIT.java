@@ -69,6 +69,35 @@ public class ParkingDataBaseIT {
     }
 
     @Test
+    @DisplayName("test incoming recurring vehicle process")
+    public void testParkingARecurringCar(){
+        // check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //GIVEN
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processIncomingVehicle();
+
+        //THEN
+        assertTrue(ticketDAO.isRecurringVehicle("ABCDEF"));
+    }
+
+    @Test
+    @DisplayName("test incoming non recurring vehicle process")
+    public void testParkingANonRecurringCar(){
+        // check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //GIVEN
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processIncomingVehicle();
+
+        //THEN
+        assertFalse(ticketDAO.isRecurringVehicle("ABC"));
+
+    }
+
+    @Test
     @DisplayName("test exiting vehicle process")
     public void testParkingLotExit(){
         //check that the fare generated and out time are populated in the database

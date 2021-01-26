@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.Date;
 
 public class TicketDAO {
 
@@ -17,7 +16,7 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public boolean saveTicket(Ticket ticket){
+    public void saveTicket(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -32,18 +31,17 @@ public class TicketDAO {
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (new Timestamp(ticket.getOutTime().getTime())) );
             ps.execute();
-            return true;
+            //return true;
         } catch (RuntimeException ex){
             throw ex;
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
-
-            dataBaseConfig.closeConnection(con);
             dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeConnection(con);
 
-            return false;
         }
+        //return false;
     }
 
     public Ticket getTicket(String vehicleRegNumber) {
@@ -76,8 +74,8 @@ public class TicketDAO {
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
-            return ticket;
-        }
+                    }
+        return ticket;
     }
 
     public boolean updateTicket(Ticket ticket) {
@@ -102,7 +100,6 @@ public class TicketDAO {
         return false;
     }
 
-    //public DataBaseConfig dataBaseConfig = new DataBaseConfig();
     public boolean isRecurringVehicle(String vehicleRegNumber) {
         Connection con = null;
         int result = -1;
@@ -121,25 +118,27 @@ public class TicketDAO {
                 if(result>0){
                     System.out.println("recurring vehicle ok");
                     recurringVehicle = true;
-                } else {
+                } /*else {
                     recurringVehicle =  false;
-                }
-            } else {
+                }*/
+            } /*else {
                 recurringVehicle =  false;
-            }
+            }*/
         } catch (RuntimeException ex){
             throw ex;
         }catch (Exception ex){
             logger.error("Error testing recurring vehicle",ex);
         }finally {
             dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closeConnection(con);
             dataBaseConfig.closePreparedStatement(ps);
-            return recurringVehicle;
+            dataBaseConfig.closeConnection(con);
+
+            //return recurringVehicle;
         }
+        return recurringVehicle;
     }
 
-    public boolean addFakeInTime(Ticket ticket){
+    public void addFakeInTime(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -149,18 +148,17 @@ public class TicketDAO {
             ps.setTimestamp(1, (new Timestamp(ticket.getInTime().getTime())));
             ps.setInt(2,ticket.getId());
             ps.execute();
-            return true;
+            //return true;
         } catch (RuntimeException ex){
             throw ex;
         }catch (Exception ex){
             logger.error("Error saving fakeInTime",ex);
         }finally {
-
-            dataBaseConfig.closeConnection(con);
             dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeConnection(con);
 
-            return false;
         }
+        //return false;
     }
 
 }
