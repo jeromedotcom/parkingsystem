@@ -111,19 +111,13 @@ public class TicketDAO {
             ps = con.prepareStatement(DBConstants.GET_RECURRING_VEHICLE);
             ps.setString(1, vehicleRegNumber);
             rs = ps.executeQuery();
-            //boolean rs = ps.execute();
-
             if(rs.next()){
                 result = rs.getInt(1);
                 if(result>0){
                     System.out.println("recurring vehicle ok");
                     recurringVehicle = true;
-                } /*else {
-                    recurringVehicle =  false;
-                }*/
-            } /*else {
-                recurringVehicle =  false;
-            }*/
+                }
+            }
         } catch (RuntimeException ex){
             throw ex;
         }catch (Exception ex){
@@ -132,8 +126,6 @@ public class TicketDAO {
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
-
-            //return recurringVehicle;
         }
         return recurringVehicle;
     }

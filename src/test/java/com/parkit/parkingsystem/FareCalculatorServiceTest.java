@@ -60,9 +60,6 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(parkingSpot);
         ticket.setRecurringVehicle(true);
         fareCalculatorService.calculateFare(ticket);
-        /*double temp = 0.95*1.50 ;
-        System.out.println(temp);
-        assertEquals(0.95 * Fare.CAR_RATE_PER_HOUR, ticket.getPrice());*/
         assertEquals(1.425, ticket.getPrice());
     }
 

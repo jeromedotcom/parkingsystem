@@ -51,22 +51,6 @@ public class Ticket {
         this.price = price;
     }
 
-/*    public Date getInTime() {
-        return new Date(inTime.getTime());
-    }
-
-    public void setInTime(Date inTime) {
-        this.inTime = new Date(inTime.getTime());
-    }
-
-    public Date getOutTime() {
-        return new Date(outTime.getTime());
-    }
-
-    public void setOutTime(Date outTime) {
-        this.outTime = outTime;
-    }*/
-
     public Date getInTime() {
         return new Date(inTime.getTime());
     }
@@ -76,9 +60,7 @@ public class Ticket {
     }
 
     public Date getOutTime() {
-        //return outTime;
         return (outTime == null)? null : (new Date(outTime.getTime()));
-
     }
 
     public void setOutTime(Date outTime) {
