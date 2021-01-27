@@ -52,11 +52,11 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return new Date(inTime.getTime());
+        return (inTime == null)? null : (new Date(inTime.getTime()));
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = new Date(inTime.getTime());
+        this.inTime = (inTime == null) ?null : (new Date(inTime.getTime()));
     }
 
     public Date getOutTime() {

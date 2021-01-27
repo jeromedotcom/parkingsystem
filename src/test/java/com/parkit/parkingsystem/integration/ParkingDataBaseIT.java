@@ -5,7 +5,6 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
-import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
@@ -18,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -69,42 +67,12 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    @DisplayName("test incoming recurring vehicle process")
-    public void testParkingARecurringCar(){
-        // check that a ticket is actualy saved in DB and Parking table is updated with availability
-        //GIVEN
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
-        //WHEN
-        parkingService.processIncomingVehicle();
-
-        //THEN
-        assertTrue(ticketDAO.isRecurringVehicle("ABCDEF"));
-    }
-
-    @Test
-    @DisplayName("test incoming non recurring vehicle process")
-    public void testParkingANonRecurringCar(){
-        // check that a ticket is actualy saved in DB and Parking table is updated with availability
-        //GIVEN
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
-        //WHEN
-        parkingService.processIncomingVehicle();
-
-        //THEN
-        assertFalse(ticketDAO.isRecurringVehicle("ABC"));
-
-    }
-
-    @Test
     @DisplayName("test exiting vehicle process")
     public void testParkingLotExit(){
         //check that the fare generated and out time are populated in the database
         // GIVEN
-        testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
+        testParkingACar();
         // update inTime with 1h less so that inTime and outTime are different otherwise the test is not repeatable because randomly outTime is few ms after inTime
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         Date fakeInTime = ticket.getInTime();
@@ -119,5 +87,49 @@ public class ParkingDataBaseIT {
         assertNotNull(ticketDAO.getTicket("ABCDEF").getOutTime());
         assertNotEquals(0, ticketDAO.getTicket("ABCDEF").getPrice());
     }
+
+/*        @Test
+    @DisplayName("test incoming recurring vehicle process")
+    public void testParkingARecurringCar(){
+        // check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //GIVEN
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processIncomingVehicle();
+
+        //THEN
+        assertTrue(ticketDAO.isRecurringVehicle("ABCDEF"));
+    }
+
+        @Test
+    @DisplayName("test incoming non recurring vehicle process")
+    public void testParkingANonRecurringCar(){
+        // check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //GIVEN
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        //WHEN
+        parkingService.processIncomingVehicle();
+
+        //THEN
+        assertFalse(ticketDAO.isRecurringVehicle("ABC"));
+
+    }*/
+
+/*    @Test
+    @DisplayName("test incoming bike process")
+    public void testParkingABike(){
+        // check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //GIVEN
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        //WHEN
+        parkingService.processIncomingVehicle();
+
+        //THEN
+        assertNotNull(ticketDAO.getTicket("ABCDEF"));
+        assertNotSame(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR), ticketDAO.getTicket("ABCDEF").getParkingSpot().getId());
+    }*/
 
 }

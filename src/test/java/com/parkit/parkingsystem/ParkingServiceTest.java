@@ -60,25 +60,38 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processIncomingVehicleTest() {
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
-        parkingService.processIncomingVehicle();
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
-    }
-
-
-
-
-    @Test
     public void processExitingUnknownVehicleTest() {
-        // GIVEN vehicle doesnt exist ex: abc
+        // GIVEN vehicle doesnt exist
         when(ticketDAO.getTicket(anyString())).thenReturn(null);
         // WHEN parkingService.processExitingVehicle();
         parkingService.processExitingVehicle();
         // THEN parkingspot is not updated and no ticket updated
         verify(parkingSpotDAO, Mockito.times(0)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, Mockito.times(0)).updateTicket(any(Ticket.class));
+    }
+
+    @Test
+    public void processIncomingRecurringVehicleTest() {
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+        when(ticketDAO.isRecurringVehicle(anyString())).thenReturn(true);
+        parkingService.processIncomingVehicle();
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+    }
+
+    @Test
+    public void processIncomingNonRecurringVehicleTest() {
+
+        // GIVEN
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(ticketDAO.isRecurringVehicle(anyString())).thenReturn(false);
+
+        // WHEN
+        parkingService.processIncomingVehicle();
+        // THEN
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+
     }
 
     @Test
@@ -96,4 +109,18 @@ public class ParkingServiceTest {
         verify(ticketDAO, Mockito.times(0)).updateTicket(any(Ticket.class));
 
     }
+
+/*      @Test
+        public void processIncomingBikeTest() {
+
+        // GIVEN
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+
+        // WHEN
+        parkingService.processIncomingVehicle();
+        // THEN
+        verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(ParkingType.BIKE);
+
+    }*/
+
 }

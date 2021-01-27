@@ -17,8 +17,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-@ExtendWith(MockitoExtension.class)
-
 
 public class FareCalculatorServiceTest {
 
