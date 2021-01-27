@@ -7,6 +7,10 @@ import java.util.Objects;
 
 public class FareCalculatorService {
 
+    /**
+     * Calculate the fare
+     * @param ticket used to calculate the fare
+     */
     public void calculateFare(Ticket ticket){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ Objects.requireNonNull(ticket.getOutTime()).toString());

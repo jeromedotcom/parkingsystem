@@ -88,9 +88,9 @@ public class ParkingDataBaseIT {
         assertNotEquals(0, ticketDAO.getTicket("ABCDEF").getPrice());
     }
 
-/*        @Test
-    @DisplayName("test incoming recurring vehicle process")
-    public void testParkingARecurringCar(){
+        @Test
+        @DisplayName("test incoming recurring vehicle process")
+        public void testParkingARecurringCar(){
         // check that a ticket is actualy saved in DB and Parking table is updated with availability
         //GIVEN
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -102,6 +102,10 @@ public class ParkingDataBaseIT {
         assertTrue(ticketDAO.isRecurringVehicle("ABCDEF"));
     }
 
+
+
+
+/*
         @Test
     @DisplayName("test incoming non recurring vehicle process")
     public void testParkingANonRecurringCar(){

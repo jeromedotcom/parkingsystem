@@ -16,6 +16,10 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * Save ticket when a vehicle incoming
+     * @param ticket store ParkingSpot Id, inTime and vehicle registration number (price 0 and outTime null)
+     */
     public void saveTicket(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
@@ -44,6 +48,11 @@ public class TicketDAO {
         //return false;
     }
 
+    /**
+     * get ticket while processing exiting vehicle
+     * @param vehicleRegNumber the vehicle registration number entered by the user
+     * @return Ticket
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -78,6 +87,11 @@ public class TicketDAO {
         return ticket;
     }
 
+    /**
+     * Update the ticket with outTime and the fare
+     * @param ticket generated after incoming process
+     * @return false if update is failing
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -100,6 +114,11 @@ public class TicketDAO {
         return false;
     }
 
+    /**
+     * Check if the vehicle registration number is already in the DB
+     * @param vehicleRegNumber user input
+     * @return true if the vehicle registration is already in the DB
+     */
     public boolean isRecurringVehicle(String vehicleRegNumber) {
         Connection con = null;
         int result = -1;
@@ -130,6 +149,10 @@ public class TicketDAO {
         return recurringVehicle;
     }
 
+    /**
+     * Update inTime with 1h less ; used for unit test
+     * @param ticket ticket used to store inTime and outTime to calculate fare
+     */
     public void addFakeInTime(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
@@ -150,7 +173,6 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
 
         }
-        //return false;
     }
 
 }

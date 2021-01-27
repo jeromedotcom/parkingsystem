@@ -13,12 +13,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ParkingServiceTest {
 
     private static ParkingService parkingService;
@@ -77,6 +80,8 @@ public class ParkingServiceTest {
         when(ticketDAO.isRecurringVehicle(anyString())).thenReturn(true);
         parkingService.processIncomingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+        //verify(ticketDAO, Mockito.times(1)).isRecurringVehicle(anyString());
     }
 
     @Test
@@ -91,6 +96,7 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
         // THEN
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
 
     }
 
@@ -110,7 +116,7 @@ public class ParkingServiceTest {
 
     }
 
-/*      @Test
+      @Test
         public void processIncomingBikeTest() {
 
         // GIVEN
@@ -121,6 +127,6 @@ public class ParkingServiceTest {
         // THEN
         verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(ParkingType.BIKE);
 
-    }*/
+    }
 
 }
