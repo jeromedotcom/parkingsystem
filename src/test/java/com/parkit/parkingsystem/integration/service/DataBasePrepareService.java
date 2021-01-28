@@ -17,7 +17,7 @@ public class DataBasePrepareService {
             connection.prepareStatement("update parking set available = true").execute();
 
             //clear ticket entries;
-            connection.prepareStatement("truncate table ticket").execute();
+            //connection.prepareStatement("truncate table ticket").execute();
 
         }catch(Exception e){
             e.printStackTrace();

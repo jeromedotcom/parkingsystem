@@ -76,7 +76,7 @@ public class ParkingServiceTest {
     @Test
     public void processIncomingRecurringVehicleTest() {
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
         when(ticketDAO.isRecurringVehicle(anyString())).thenReturn(true);
         parkingService.processIncomingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));

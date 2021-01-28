@@ -133,7 +133,7 @@ public class TicketDAO {
             if(rs.next()){
                 result = rs.getInt(1);
                 if(result>0){
-                    System.out.println("recurring vehicle ok");
+                    System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
                     recurringVehicle = true;
                 }
             }

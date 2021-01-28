@@ -8,7 +8,8 @@ import java.util.Objects;
 public class FareCalculatorService {
 
     /**
-     * Calculate the fare
+     * Calculate the fare, depending on the vehicle type and applying 5% discount for recurring vehicle
+     * first 30 min are free
      * @param ticket used to calculate the fare
      */
     public void calculateFare(Ticket ticket){
